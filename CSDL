@@ -1,0 +1,121 @@
+CREATE DATABASE BTL;
+
+-- 1. Bảng NGƯỜI DÙNG 
+CREATE TABLE nguoi_dung (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    ten_dang_nhap VARCHAR(50) NOT NULL UNIQUE,
+    mat_khau VARCHAR(255) NOT NULL,
+    ho_ten VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    so_dien_thoai VARCHAR(20),
+    vai_tro ENUM('admin', 'user') DEFAULT 'user',
+    ngay_tao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Bảng LOẠI SẢN PHẨM
+CREATE TABLE loai_san_pham (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    ten_loai VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- 3. Bảng SẢN PHẨM 
+CREATE TABLE san_pham (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    ten_san_pham VARCHAR(100) NOT NULL,
+    mo_ta TEXT,
+    gia DECIMAL(10, 2) NOT NULL,
+    so_luong INT NOT NULL DEFAULT 0,
+    anh_url VARCHAR(255),
+    id_loai INT,
+    ngay_tao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ngay_cap_nhat TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_loai) REFERENCES loai_san_pham(id) ON DELETE SET NULL
+);
+
+-- 4. Bảng BÌNH LUẬN
+CREATE TABLE binh_luan (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_nguoi_dung INT NOT NULL,
+    id_san_pham INT NOT NULL,
+    noi_dung TEXT NOT NULL,
+    ngay_tao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ngay_cap_nhat TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_nguoi_dung) REFERENCES nguoi_dung(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_san_pham) REFERENCES san_pham(id) ON DELETE CASCADE
+);
+
+-- 5. Bảng GIỎ HÀNG
+CREATE TABLE gio_hang (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_nguoi_dung INT NOT NULL,
+    trang_thai ENUM('dang_mua', 'da_dat_hang', 'da_huy') DEFAULT 'dang_mua',
+    ngay_tao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_nguoi_dung) REFERENCES nguoi_dung(id) ON DELETE CASCADE
+);
+
+-- 6. Bảng CHI TIẾT GIỎ HÀNG (chi tiết sp trong giỏ) 
+CREATE TABLE gio_hang_chi_tiet (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_gio_hang INT NOT NULL,
+    id_san_pham INT NOT NULL,
+    so_luong INT NOT NULL DEFAULT 1,
+    ngay_them TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_gio_hang) REFERENCES gio_hang(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_san_pham) REFERENCES san_pham(id) ON DELETE CASCADE
+);
+
+-- Thêm dữ liệu người dùng
+INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau_hash, ho_ten, email, so_dien_thoai, vai_tro)
+VALUES
+('admin01', 'matkhau123', 'Admin Haha', 'admin01@example.com', '0909123456', 'admin'),
+('admin02', 'matkhau123', 'Admin Hihi', 'admin02@example.com', '0966123456', 'admin'),
+('user01', 'mkuser01', 'Nguyễn Văn Anh', 'user01@gmail.com', '0911123456', 'user'),
+('user02', 'mkuser02', 'Trần Thuỳ Linh', 'user02@gmail.com', '0922123456', 'user'),
+('user03', 'mkuser03', 'Lê Văn Cường', 'user03@gmail.com', '0933123456', 'user'),
+('user04', 'mkuser04', 'Phạm Thị Dương', 'user04@gmail.com', '0944123456', 'user'),
+('user05', 'mkuser05', 'Ngô Văn Mạnh', 'user05@gmail.com', '0955123456', 'user');
+
+-- Thêm dữ liệu loại sp 
+INSERT INTO loai_san_pham (ten_loai)
+VALUES 
+('Sữa rửa mặt'),
+('Kem chống nắng'),
+('Tinh chất / Serum'),
+('Kem dưỡng ẩm'),
+('Tẩy trang');
+
+-- Thêm dữ liệu sản phẩm
+INSERT INTO san_pham (ten_san_pham, mo_ta, gia, so_luong, anh_url, id_loai)
+VALUES
+---------- SỮA RỬA MẶT
+('La Roche-Posay Effaclar Gel', 'Sữa rửa mặt cho da dầu mụn, làm sạch dịu nhẹ', 360000, 20, 'https://example.com/effaclar.jpg', 1),
+('Cerave Foaming Facial Cleanser', 'Sữa rửa mặt tạo bọt dịu nhẹ, phục hồi hàng rào da', 280000, 15, 'https://example.com/cerave_cleanser.jpg', 1),
+
+---------- KEM CHỐNG NẮNG
+('Anessa Perfect UV Sunscreen Milk', 'Chống nắng mạnh SPF50+, không trôi, thẩm thấu nhanh', 540000, 25, 'https://example.com/anessa.jpg', 2),
+('La Roche-Posay Anthelios Invisible Fluid', 'Kem chống nắng không cồn, không mùi, dịu nhẹ', 490000, 18, 'https://example.com/anthelios.jpg', 2),
+
+---------- SERUM / TINH CHẤT
+('The Ordinary Niacinamide 10% + Zinc 1%', 'Giảm mụn, kiềm dầu, làm sáng da', 280000, 30, 'https://example.com/ordinary_niacinamide.jpg', 3),
+('Paula’s Choice BHA 2% Liquid Exfoliant', 'Tinh chất tẩy tế bào chết hóa học, làm mịn da', 750000, 10, 'https://example.com/paulas_bha.jpg', 3),
+
+---------- KEM DƯỠNG ẨM
+('Clinique Moisture Surge 100H', 'Dưỡng ẩm sâu, thẩm thấu nhanh, cho mọi loại da', 980000, 12, 'https://example.com/clinique_moisture.jpg', 4),
+('Neutrogena Hydro Boost Water Gel', 'Dưỡng ẩm dạng gel nhẹ, thấm nhanh, cấp nước tốt', 420000, 20, 'https://example.com/neutrogena.jpg', 4),
+
+---------- TẨY TRANG
+('Bioderma Sensibio H2O Micellar Water', 'Nước tẩy trang cho da nhạy cảm, làm sạch sâu', 350000, 18, 'https://example.com/bioderma.jpg', 5),
+('Garnier Micellar Water Vitamin C', 'Tẩy trang dịu nhẹ, có Vitamin C làm sáng da', 210000, 25, 'https://example.com/garnier_vitc.jpg', 5),
+
+---------- SẢN PHẨM PHỤ
+('Some By Mi AHA-BHA-PHA Toner', 'Toner làm sạch da, se khít lỗ chân lông, hỗ trợ trị mụn', 320000, 22, 'https://example.com/somebymi_toner.jpg', 3),
+('Innisfree Green Tea Balancing Cream', 'Kem dưỡng từ trà xanh, cân bằng da dầu, dưỡng ẩm tốt', 390000, 16, 'https://example.com/innisfree.jpg', 4);
+
+-- Thêm dữ liệu bình luận
+INSERT INTO binh_luan (id_nguoi_dung, id_san_pham, noi_dung)
+VALUES
+(2, 1, 'Dùng sữa rửa mặt này hơn 1 tháng, da bớt nhờn hẳn. Không bị căng sau khi rửa.'),
+(3, 3, 'Kem chống nắng Anessa đúng là đỉnh cao, không bí da, không trôi khi đổ mồ hôi.'),
+(4, 5, 'Serum The Ordinary giá tốt, hiệu quả rõ sau 2 tuần. Da mịn hơn và ít mụn đầu đen.'),
+(5, 10, 'Tẩy trang Bioderma dịu nhẹ cực kỳ, không cay mắt. Mình dùng mỗi ngày.'),
+(6, 12, 'Kem dưỡng Innisfree mùi thơm dễ chịu, da ẩm mượt suốt đêm. Mình da dầu vẫn dùng được.');
