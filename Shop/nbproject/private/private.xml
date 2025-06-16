@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/web/layouts/header.jsp</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/nbproject/build-impl.xml</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/src/java/BTL/controllers/SanPhamServlet.java</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/src/java/BTL/utils/test.java</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/web/index.jsp</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/src/java/BTL/controllers/TrangChuServlet.java</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/src/java/BTL/daos/SanPhamDAO.java</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/web/index.html</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/web/WEB-INF/web.xml</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/web/views/auth/dangKy.jsp</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/src/java/BTL/models/SanPham.java</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/web/views/auth/thongTinCaNhan.jsp</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/src/java/BTL/controllers/AuthServlet.java</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/web/views/auth/dangNhap.jsp</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/src/java/BTL/utils/DBConnection.java</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/src/java/BTL/patterns/QuanLyNguoiDungFacade.java</file>
+            <file>file:/Users/truongvu/LAP%20TRINH%20PHAN%20TAN/Shop/src/java/BTL/daos/NguoiDungDAO.java</file>
+        </group>
+    </open-files>
+</project-private>
