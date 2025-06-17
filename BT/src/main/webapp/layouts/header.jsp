@@ -118,7 +118,7 @@
                         <div class="card-body">
                             <h5 class="card-title"><%= sp.getTenSanPham() %></h5>
                             <p class="card-text text-danger fw-bold">₫<%= String.format("%,.0f", sp.getGia()) %></p>
-							<a href="<%= request.getContextPath() %>/san-pham/chi-tiet?id=<%= sp.getId() %>" class="btn btn-primary">Xem chi tiết</a>
+						<a href="<%= request.getContextPath() %>/san-pham/chi-tiet?id=<%= sp.getId() %>" class="btn btn-primary">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
