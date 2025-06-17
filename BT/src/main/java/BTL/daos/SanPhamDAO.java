@@ -93,7 +93,7 @@ public class SanPhamDAO {
         return sp;
     }
     
-    // hiển thị trên trang chủ
+    // navbar 
     public List<SanPham> layTheoLoai(int idLoai) {
         List<SanPham> ds = new ArrayList<>();
         String sql = "SELECT * FROM san_pham WHERE id_loai = ?";
@@ -109,40 +109,4 @@ public class SanPhamDAO {
         }
         return ds;
     }
-
 }
-
-//package BTL.daos;
-//
-//import java.sql.*;
-//import java.util.*;
-//import BTL.models.SanPham;
-//import BTL.utils.DBConnection;
-//
-//public class SanPhamDAO {
-//    private Connection connection = DBConnection.getInstance().getConnection();
-//
-//    public List<SanPham> layTatCa() {
-//        List<SanPham> ds = new ArrayList<>();
-//        String sql = "SELECT * FROM san_pham";
-//        try (PreparedStatement stmt = connection.prepareStatement(sql);
-//             ResultSet rs = stmt.executeQuery()) {
-//            while (rs.next()) {
-//                SanPham sp = new SanPham();
-//                sp.setId(rs.getInt("id"));
-//                sp.setTenSanPham(rs.getString("ten_san_pham"));
-//                sp.setMoTa(rs.getString("mo_ta"));
-//                sp.setGia(rs.getDouble("gia"));
-//                sp.setSoLuong(rs.getInt("so_luong"));
-//                sp.setAnhUrl(rs.getString("anh_url"));
-//                sp.setIdLoai(rs.getInt("id_loai"));
-//                sp.setNgayTao(rs.getTimestamp("ngay_tao"));
-//                sp.setNgayCapNhat(rs.getTimestamp("ngay_cap_nhat"));
-//                ds.add(sp);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return ds;
-//    }
-//}
