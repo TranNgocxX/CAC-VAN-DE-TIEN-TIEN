@@ -1,4 +1,3 @@
-// ======= SanPhamServlet.java =======
 package BTL.controllers;
 
 import BTL.models.LoaiSanPham;
@@ -101,39 +100,3 @@ public class SanPhamServlet extends HttpServlet {
         request.getRequestDispatcher("/views/sanpham/quanLySanPham.jsp").forward(request, response);
     }
 }
-
-
-
-
-//package BTL.controllers;
-//
-//import BTL.models.SanPham;
-//import BTL.patterns.QuanLySanPhamFacade;
-//
-//import javax.servlet.ServletException;
-//import javax.servlet.annotation.WebServlet;
-//import javax.servlet.http.*;
-//import java.io.IOException;
-//import java.util.List;
-//
-//@WebServlet("/san-pham/*")
-//public class SanPhamServlet extends HttpServlet {
-//    private QuanLySanPhamFacade sanPhamFacade = new QuanLySanPhamFacade();
-//
-//    @Override
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String action = request.getPathInfo();
-//        if (action == null || action.equals("/quan-ly")) {
-//            hienThiDanhSachSanPham(request, response);
-//        } else {
-//            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-//        }
-//    }
-//
-//    private void hienThiDanhSachSanPham(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        List<SanPham> danhSach = sanPhamFacade.layTatCaSanPham();
-//        request.setAttribute("danhSachSanPham", danhSach);
-//        request.getRequestDispatcher("/views/sanpham/quanLySanPham.jsp").forward(request, response);
-//    }
-//}
