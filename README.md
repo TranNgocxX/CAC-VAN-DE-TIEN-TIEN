@@ -8,7 +8,7 @@ binh_luan(id, id_nguoi_dung, id_san_pham, noi_dung, ngay_tao, ngay_cap_nhat)
 gio_hang(id, id_nguoi_dung, trang_thai, ngay_tao)
 gio_hang_chi_tiet(id, id_gio_hang, id_san_pham, so_luong, ngay_them)
 
-2. Lưu ý:  - Cover_BT: ảnh minh hoạ
-           - Ảnh sử dụng trong code
+2. Lưu ý:  - Cover_Shop: Chứa ảnh minh hoạ giao diện 
+           - Girl...: Chứa ảnh sử dụng trong code
            - Shop là file cũ =)) 
                       
