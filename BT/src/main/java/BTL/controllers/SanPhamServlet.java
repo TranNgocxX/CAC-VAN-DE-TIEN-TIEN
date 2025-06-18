@@ -1,5 +1,7 @@
 package BTL.controllers;
 
+import BTL.daos.BinhLuanDAO;
+import BTL.models.BinhLuan;
 import BTL.models.LoaiSanPham;
 import BTL.models.SanPham;
 import BTL.patterns.QuanLySanPhamFacade;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @WebServlet("/san-pham/*")
 public class SanPhamServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
     private QuanLySanPhamFacade sanPhamFacade = new QuanLySanPhamFacade();
 
     @Override
@@ -53,9 +56,14 @@ public class SanPhamServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
+            // Thêm đoạn này để lấy bình luận
+            List<BinhLuan> danhSachBinhLuan = new BinhLuanDAO().layTheoSanPham(id);
+            request.setAttribute("danhSachBinhLuan", danhSachBinhLuan);
 
             request.setAttribute("sp", sp);
             request.getRequestDispatcher("/views/sanpham/chiTietSanPham.jsp").forward(request, response);
+            //request.setAttribute("sp", sp);
+            //request.getRequestDispatcher("/views/sanpham/chiTietSanPham.jsp").forward(request, response);
 
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
