@@ -1,79 +1,61 @@
 package BTL.daos;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import BTL.models.BinhLuan;
+import BTL.models.NguoiDung;
 import BTL.utils.DBConnection;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinhLuanDAO {
-    private static BinhLuanDAO instance;
     private Connection connection;
-    
-    private BinhLuanDAO() {
+
+    public BinhLuanDAO() {
         connection = DBConnection.getInstance().getConnection();
     }
-    
-    public static synchronized BinhLuanDAO getInstance() {
-        if (instance == null) {
-            instance = new BinhLuanDAO();
-        }
-        return instance;
-    }
-    
-    public boolean themBinhLuan(BinhLuan binhLuan) {
-        String sql = "INSERT INTO binh_luan (id_nguoi_dung, id_san_pham, noi_dung) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, binhLuan.getIdNguoiDung());
-            stmt.setInt(2, binhLuan.getIdSanPham());
-            stmt.setString(3, binhLuan.getNoiDung());
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-    
-    public List<BinhLuan> layBinhLuanTheoSanPham(int idSanPham) {
-        List<BinhLuan> dsBinhLuan = new ArrayList<>();
-        String sql = "SELECT * FROM binh_luan WHERE id_san_pham = ? ORDER BY ngay_tao DESC";
+    public List<BinhLuan> layTheoSanPham(int idSanPham) {
+        List<BinhLuan> danhSach = new ArrayList<>();
+        String sql = "SELECT bl.*, nd.ho_ten FROM binh_luan bl JOIN nguoi_dung nd ON bl.id_nguoi_dung = nd.id WHERE bl.id_san_pham = ? ORDER BY bl.ngay_tao DESC";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, idSanPham);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                dsBinhLuan.add(taoBinhLuanTuResultSet(rs));
+                BinhLuan bl = new BinhLuan();
+                bl.setId(rs.getInt("id"));
+                bl.setIdNguoiDung(rs.getInt("id_nguoi_dung"));
+                bl.setIdSanPham(rs.getInt("id_san_pham"));
+                bl.setNoiDung(rs.getString("noi_dung"));
+                bl.setNgayTao(rs.getTimestamp("ngay_tao"));
+                bl.setNgayCapNhat(rs.getTimestamp("ngay_cap_nhat"));
+
+                NguoiDung nd = new NguoiDung();
+                nd.setId(rs.getInt("id_nguoi_dung"));
+                nd.setHoTen(rs.getString("ho_ten"));
+                bl.setNguoiDung(nd);
+
+                danhSach.add(bl);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return dsBinhLuan;
+        return danhSach;
     }
-    public List<BinhLuan> layBinhLuanTheoNguoiDung(int idNguoiDung) {
-        List<BinhLuan> dsBinhLuan = new ArrayList<>();
-        String sql = "SELECT * FROM binh_luan WHERE id_nguoi_dung = ? ORDER BY ngay_tao DESC";
+    
+    public void themBinhLuan(BinhLuan bl) {
+        String sql = "INSERT INTO binh_luan (id_nguoi_dung, id_san_pham, noi_dung, ngay_tao, ngay_cap_nhat) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, idNguoiDung);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                dsBinhLuan.add(taoBinhLuanTuResultSet(rs));
-            }
+            stmt.setInt(1, bl.getIdNguoiDung());
+            stmt.setInt(2, bl.getIdSanPham());
+            stmt.setString(3, bl.getNoiDung());
+            stmt.setTimestamp(4, bl.getNgayTao());
+            stmt.setTimestamp(5, bl.getNgayCapNhat());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return dsBinhLuan;
     }
 
-    private BinhLuan taoBinhLuanTuResultSet(ResultSet rs) throws SQLException {
-        BinhLuan binhLuan = new BinhLuan();
-        binhLuan.setId(rs.getInt("id"));
-        binhLuan.setIdNguoiDung(rs.getInt("id_nguoi_dung"));
-        binhLuan.setIdSanPham(rs.getInt("id_san_pham"));
-        binhLuan.setNoiDung(rs.getString("noi_dung"));
-        binhLuan.setNgayTao(rs.getTimestamp("ngay_tao"));
-        binhLuan.setNgayCapNhat(rs.getTimestamp("ngay_cap_nhat"));
-        return binhLuan;
-    }
+    
 }
