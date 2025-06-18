@@ -1,39 +1,17 @@
 package BTL.patterns;
 
-import java.util.List;
 import BTL.daos.BinhLuanDAO;
 import BTL.models.BinhLuan;
+import java.util.List;
 
 public class QuanLyBinhLuanFacade {
-    private BinhLuanDAO binhLuanDAO;
-    private BinhLuanOriginator originator;
+    private BinhLuanDAO binhLuanDAO = new BinhLuanDAO();
 
-    public QuanLyBinhLuanFacade() {
-        this.binhLuanDAO = BinhLuanDAO.getInstance();
-        this.originator = new BinhLuanOriginator();
+    public List<BinhLuan> layTheoSanPham(int idSanPham) {
+        return binhLuanDAO.layTheoSanPham(idSanPham);
     }
 
-    public boolean themBinhLuan(BinhLuan binhLuan) {
-        // Lưu trạng thái trước khi thêm
-        originator.setBinhLuan(binhLuan);
-        BinhLuanMemento memento = originator.luuTrangThai();
-
-        boolean result = binhLuanDAO.themBinhLuan(binhLuan);
-
-        if (!result) {
-            // Phục hồi trạng thái nếu thất bại
-            originator.phucHoiTrangThai(memento);
-        }
-
-        return result;
-    }
-
-    public List<BinhLuan> layBinhLuanTheoSanPham(int idSanPham) {
-        return binhLuanDAO.layBinhLuanTheoSanPham(idSanPham);
-    }
-
-    public List<BinhLuan> layBinhLuanTheoNguoiDung(int idNguoiDung) {
-        return binhLuanDAO.layBinhLuanTheoNguoiDung(idNguoiDung);
+    public void themBinhLuan(BinhLuan bl) {
+        binhLuanDAO.themBinhLuan(bl);
     }
 }
-
