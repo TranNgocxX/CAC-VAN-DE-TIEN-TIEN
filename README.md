@@ -1,4 +1,4 @@
-# FILE: BT 
+# FILE: BT - FILE CŨ : đã đổi một vài file code
 
 1. CSDL:
 nguoi_dung(id, ten_dang_nhap, mat_khau, ho_ten, email, so_dien_thoai, vai_tro, ngay_tao)
